@@ -12,10 +12,10 @@ AegisGate is a bare-metal hypervisor that boots **before Windows** via UEFI. It 
 
 Windows runs as a controlled guest VM while AegisGate monitors and protects the system from:
 
-- 🛡️ **Kernel-level malware & rootkits** (NPT/EPT memory protection)
-- 🔌 **USB hardware attacks** (Rubber Ducky, BadUSB) via I/O interception
-- 🧬 **Bootkits** (AegisGate loads before any OS code)
-- 🔐 **Memory manipulation** (watchpoints on critical kernel structures)
+-  **Kernel-level malware & rootkits** (NPT/EPT memory protection)
+-  **USB hardware attacks** (Rubber Ducky, BadUSB) via I/O interception
+-  **Bootkits** (AegisGate loads before any OS code)
+-  **Memory manipulation** (watchpoints on critical kernel structures)
 
 **Zero performance impact** — designed for extreme speed with minimal VM-Exit overhead.
 

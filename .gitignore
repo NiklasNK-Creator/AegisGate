@@ -31,3 +31,5 @@ Desktop.ini
 # Debug
 *.dmp
 *.log
+
+agent/build_test/

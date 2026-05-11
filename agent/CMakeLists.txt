@@ -4,12 +4,24 @@ project(AegisGateAgent VERSION 1.0.0 LANGUAGES CXX ASM_NASM)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Windows Agent executable
-add_executable(AegisGate WIN32
+# ── Build Mode ──────────────────────────────────────────────────────────
+# AEGIS_TEST_MODE: Build without ASM VMCALL (demo mode, no hypervisor needed)
+# Set via: cmake -DAEGIS_TEST_MODE=ON
+option(AEGIS_TEST_MODE "Build in test mode without VMCALL ASM" OFF)
+
+# ── Source Files ────────────────────────────────────────────────────────
+set(AGENT_SOURCES
     src/main.cpp
     src/vmcall_direct.cpp
-    src/vmcall_stub.asm
 )
+
+# Only include ASM in production mode
+if(NOT AEGIS_TEST_MODE)
+    list(APPEND AGENT_SOURCES src/vmcall_stub.asm)
+endif()
+
+# Windows Agent executable
+add_executable(AegisGate WIN32 ${AGENT_SOURCES})
 
 target_compile_definitions(AegisGate PRIVATE
     _AEGISGATE_WIN=1
@@ -18,6 +30,10 @@ target_compile_definitions(AegisGate PRIVATE
     UNICODE
     _UNICODE
 )
+
+if(AEGIS_TEST_MODE)
+    target_compile_definitions(AegisGate PRIVATE AEGIS_TEST_MODE=1)
+endif()
 
 target_include_directories(AegisGate PRIVATE
     ${CMAKE_SOURCE_DIR}/../common/include
@@ -31,7 +47,9 @@ target_link_libraries(AegisGate PRIVATE
 )
 
 # NASM settings for Windows
-set(CMAKE_ASM_NASM_OBJECT_FORMAT win64)
+if(NOT AEGIS_TEST_MODE)
+    set(CMAKE_ASM_NASM_OBJECT_FORMAT win64)
+endif()
 
 # Set output name
 set_target_properties(AegisGate PROPERTIES

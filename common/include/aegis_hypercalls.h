@@ -134,14 +134,14 @@ enum class Hypercall : UINT32 {
 /// Shared memory page header (encrypted payload follows)
 #pragma pack(push, 1)
 struct SharedMemHeader {
-    UINT32 Magic;              // Must be 0xAE61C0DE
-    UINT32 Version;            // Protocol version
-    UINT64 SequenceNumber;     // Monotonically increasing (anti-replay)
-    UINT32 PayloadLength;      // Length of encrypted data
-    UINT32 Command;            // Hypercall command echo
-    UINT8  Nonce[12];          // AES-GCM nonce (unique per message)
-    UINT8  AuthTag[16];        // AES-GCM authentication tag (16 bytes)
-    // Encrypted payload starts at offset 48
+    UINT32 Magic;              // Must be 0xAE61C0DE         (4)
+    UINT32 Version;            // Protocol version            (4)
+    UINT64 SequenceNumber;     // Monotonically increasing    (8)
+    UINT32 PayloadLength;      // Length of encrypted data     (4)
+    UINT32 Command;            // Hypercall command echo       (4)
+    UINT8  Nonce[12];          // AES-GCM nonce               (12)
+    UINT8  AuthTag[16];        // AES-GCM authentication tag  (16)
+    // Total: 52 bytes. Encrypted payload starts at offset 52.
 };
 #pragma pack(pop)
 
@@ -150,7 +150,7 @@ constexpr UINT32 SHARED_MEM_VERSION = 1;
 constexpr UINT32 SHARED_MEM_HEADER_SIZE = sizeof(SharedMemHeader);
 constexpr UINT32 SHARED_MEM_MAX_PAYLOAD = PAGE_SIZE_4K - SHARED_MEM_HEADER_SIZE;
 
-static_assert(SHARED_MEM_HEADER_SIZE == 48, "Header must be 48 bytes");
+static_assert(SHARED_MEM_HEADER_SIZE == 52, "Header must be 52 bytes");
 
 // ============================================================================
 //  Handshake Challenge Structure

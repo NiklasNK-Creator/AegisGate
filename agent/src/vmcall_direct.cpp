@@ -15,6 +15,8 @@ namespace aegis::agent {
 //  Low-level VMCALL via inline assembly (MSVC x64)
 // ============================================================================
 
+#ifndef AEGIS_TEST_MODE
+
 // MSVC x64 doesn't support inline ASM, so we use a separate .asm file
 // or the __vmx_vmcall intrinsic. However, __vmx_vmcall is only available
 // in kernel mode. For user mode, we need a raw .asm stub.
@@ -48,6 +50,19 @@ VmcallResult DoVmcall(UINT64 hypercallId, UINT64 param1, UINT64 param2, UINT64 t
     
     return result;
 }
+
+#else // AEGIS_TEST_MODE — Demo build without ASM
+
+VmcallResult DoVmcall(UINT64 hypercallId, UINT64 param1, UINT64 param2, UINT64 token) {
+    (void)hypercallId; (void)param1; (void)param2; (void)token;
+    VmcallResult result = {};
+    result.Status = static_cast<UINT64>(HV_NOT_INITIALIZED);
+    result.Value1 = 0;
+    result.Value2 = 0;
+    return result;
+}
+
+#endif // AEGIS_TEST_MODE
 
 // ============================================================================
 //  Hypervisor Detection via Custom CPUID Leaf

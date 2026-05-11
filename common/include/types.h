@@ -193,6 +193,8 @@ inline bool HasFlag(MemPermissions perms, MemPermissions flag) {
 // ============================================================================
 
 struct GuestRegisters {
+    // Layout MUST match the SAVE_GUEST_REGS / RESTORE_GUEST_REGS macro order!
+    // Stack grows down, so first push = highest address = first struct field
     UINT64 Rax;
     UINT64 Rcx;
     UINT64 Rdx;
@@ -209,14 +211,12 @@ struct GuestRegisters {
     UINT64 R14;
     UINT64 R15;
     
-    // Segment selectors (restored from VMCB/VMCS)
-    UINT64 Rip;
-    UINT64 Rsp;
-    UINT64 Rflags;
+    // NOTE: Rip, Rsp, Rflags are NOT here — they live in VMCB State Area
+    // Access them via vcpu->GuestVmcb.State.Rip / .Rsp / .Rflags
 };
 
-// Verify layout matches ASM push order
-static_assert(sizeof(GuestRegisters) == 18 * 8, "GuestRegisters must be 144 bytes");
+// Verify layout matches ASM push order (15 GPRs × 8 bytes = 120 bytes)
+static_assert(sizeof(GuestRegisters) == 15 * 8, "GuestRegisters must be 120 bytes");
 
 // ============================================================================
 //  Utility: Compile-time assertions & helpers

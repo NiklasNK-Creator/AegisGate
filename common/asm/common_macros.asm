@@ -93,12 +93,13 @@ DEFAULT REL
     or      rax, rdx
 %endmacro
 
-;; Write MSR: ECX = MSR index, EDX:EAX = value
+;; Write MSR: arg1 = MSR index, arg2 = 64-bit value (register or memory)
 %macro WRITE_MSR 2
     mov     ecx, %1
-    mov     eax, %2
-    mov     edx, %2
-    shr     rdx, 32
+    mov     rax, %2         ; Load full 64-bit value
+    mov     rdx, rax
+    shr     rdx, 32         ; EDX = high 32 bits
+    ;; EAX already contains low 32 bits (upper 32 ignored by wrmsr)
     wrmsr
 %endmacro
 

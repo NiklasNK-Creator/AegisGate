@@ -6,6 +6,7 @@
  */
 
 #include "settings.h"
+#include "../include/efi_cpp_runtime.h"
 #include "../../common/include/aegis_config.h"
 #include <Library/UefiRuntimeServicesTableLib.h>
 

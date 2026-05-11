@@ -7,6 +7,7 @@
  */
 
 #include "hardware_probe.h"
+#include "../include/efi_cpp_runtime.h"
 #include <Library/UefiLib.h>
 
 using namespace aegis;

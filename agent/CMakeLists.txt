@@ -13,6 +13,7 @@ option(AEGIS_TEST_MODE "Build in test mode without VMCALL ASM" OFF)
 set(AGENT_SOURCES
     src/main.cpp
     src/vmcall_direct.cpp
+    resources/aegisgate.rc
 )
 
 # Only include ASM in production mode

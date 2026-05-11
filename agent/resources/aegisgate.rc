@@ -1,0 +1,37 @@
+#include <windows.h>
+
+// Icon
+1 ICON "aegisgate.ico"
+
+// Manifest
+1 24 "aegisgate.manifest"
+
+// Version Info
+1 VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+FILEFLAGS       0
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0" // US English, Unicode
+        BEGIN
+            VALUE "CompanyName",      "Nik\0"
+            VALUE "FileDescription",  "AegisGate Hypervisor Security Agent\0"
+            VALUE "FileVersion",      "1.0.0.0\0"
+            VALUE "InternalName",     "AegisGate\0"
+            VALUE "LegalCopyright",   "© 2026 Nik. All rights reserved.\0"
+            VALUE "OriginalFilename", "AegisGate.exe\0"
+            VALUE "ProductName",      "AegisGate\0"
+            VALUE "ProductVersion",   "1.0.0.0\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

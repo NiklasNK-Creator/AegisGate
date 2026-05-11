@@ -1,0 +1,49 @@
+## @file
+#  AegisGate UEFI Application Module Information File
+#
+#  Developer: Nik
+#  Copyright (c) 2026. All rights reserved.
+##
+
+[Defines]
+  INF_VERSION    = 0x00010006
+  BASE_NAME      = AegisGate
+  FILE_GUID      = C1D2E3F4-A5B6-7890-1234-567890ABCDEF
+  MODULE_TYPE    = UEFI_APPLICATION
+  VERSION_STRING = 1.0
+  ENTRY_POINT    = AegisGateMain
+
+[Sources]
+  src/main.cpp
+  src/hardware_probe.cpp
+  src/settings.cpp
+  src/logo.cpp
+  src/hotkey.cpp
+  src/chain_boot.cpp
+  asm/cpuid_check.asm
+
+[Packages]
+  MdePkg/MdePkg.dec
+  AegisGatePkg/AegisGatePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  BaseLib
+  BaseMemoryLib
+  PrintLib
+  MemoryAllocationLib
+  DevicePathLib
+
+[Protocols]
+  gEfiGraphicsOutputProtocolGuid        ## CONSUMES  # Logo rendering
+  gEfiLoadedImageProtocolGuid           ## CONSUMES  # Chain boot device detection
+  gEfiSimpleTextInputProtocolGuid       ## CONSUMES  # Hotkey/settings input
+  gEfiDevicePathProtocolGuid            ## CONSUMES  # Windows boot path
+
+[BuildOptions]
+  # C++ freestanding mode: no exceptions, no RTTI
+  MSFT:*_*_X64_CC_FLAGS  = /std:c++20 /GR- /EHs-c- /D_AEGISGATE_UEFI /W4
+  GCC:*_*_X64_CC_FLAGS   = -std=c++20 -fno-exceptions -fno-rtti -D_AEGISGATE_UEFI -Wall -Wextra

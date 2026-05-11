@@ -1,0 +1,33 @@
+# AegisGate — Git Ignore
+# Developer: Nik
+
+# Build output
+output/
+agent/build/
+installer/bin/
+installer/AegisGate-Setup.exe
+Build/
+
+# EDK2 build artifacts
+*.obj
+*.lib
+*.pdb
+*.exp
+*.ilk
+
+# IDE
+.vs/
+.vscode/settings.json
+*.user
+*.suo
+*.sln.docstates
+CMakeSettings.json
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Debug
+*.dmp
+*.log

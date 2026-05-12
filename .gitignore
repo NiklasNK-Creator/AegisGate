@@ -5,6 +5,7 @@
 output/
 agent/build/
 installer/bin/
+installer/build/
 installer/AegisGate-Setup.exe
 Build/
 
